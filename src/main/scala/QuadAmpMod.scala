@@ -39,7 +39,7 @@ class QuadAmpMod(order: ModulationOrder) {
     qamSymbolToBits.map(_.swap)
 
   def modulate(data: BitVector): Seq[Complex] = {
-    val paddingSize = (order.bits - data.size % order.bits) % order.bits
+    val paddingSize = order.bits - data.size % order.bits
     val paddedBits = data ++ BitVector.fill(paddingSize)(false)
     paddedBits.grouped(order.bits).map(bitsToQamSymbol).toSeq
   }
