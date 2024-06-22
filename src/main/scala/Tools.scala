@@ -61,7 +61,7 @@ object Tools {
       n <- 0 until dimensionality
       c = cos(fundamentalFrequency * k * n)
       s = -sin(fundamentalFrequency * k * n)
-    } yield c.round >-< -s.round
+    } yield c.round >-< s.round
 
     new DenseMatrix(dimensionality, dimensionality, data.toArray)
   }
