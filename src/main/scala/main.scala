@@ -2,5 +2,5 @@ package otfs
 
 @main
 def main(): Unit = {
-  println("hello")
+  val params = FrameParams(dopplerBins = 16, delayBins = 64, freqDelta = 15e3, freqCarrier = 4e9)
 }
