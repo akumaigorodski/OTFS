@@ -15,6 +15,9 @@ extension (x: Double) {
 }
 
 extension (matrix: ComplexMatrix) {
+  // A complex-valued matrix can be seen as a matrix of matrices since each complex number can be represented as a 2x2 real matrix
+  // A complex number conjugate is the same operation as transpose of real-valued 2x2 matrix which represents that complex number
+  // Thus, a hermitian of complex-valued matrix is the same as transpose of expanded real-valued matrix which represents it
   def hermitian: ComplexMatrix = matrix.t.map(_.conjugate)
 
   def normalized: ComplexMatrix = {
