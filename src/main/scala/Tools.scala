@@ -10,7 +10,7 @@ type ComplexMatrix = DenseMatrix[Complex]
 case class ComplexSVD(u: ComplexMatrix, singularValues: DenseVector[Double], vT: ComplexMatrix)
 
 extension (x: Double) {
-  @targetName("Create a Complex out of 2 Double")
+  @targetName("createComplexFromDoubles")
   def >-<(y: Double): Complex = Complex(x, y)
 }
 
