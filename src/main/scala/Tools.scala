@@ -1,13 +1,18 @@
 package otfs
 
+import scala.math.{Pi, cos, sin}
 import breeze.linalg.{DenseMatrix, DenseVector, max}
-import scala.math.{Pi, sin, cos}
+import scala.annotation.targetName
 import breeze.math.Complex
-
 
 type ComplexMatrix = DenseMatrix[Complex]
 
 case class ComplexSVD(u: ComplexMatrix, singularValues: DenseVector[Double], vT: ComplexMatrix)
+
+extension (x: Double) {
+  @targetName("Create a Complex out of 2 Double")
+  def >-<(y: Double): Complex = Complex(x, y)
+}
 
 extension (matrix: ComplexMatrix) {
   def hermitian: ComplexMatrix = matrix.t.map(_.conjugate)
@@ -34,8 +39,8 @@ extension (matrix: ComplexMatrix) {
 
     for (i <- 0 until matrix.rows) {
       for (j <- 0 until matrix.cols) {
-        uComplex(i, j) = Complex(u(i, j), u(i + matrix.rows, j))
-        vTComplex(i, j) = Complex(vT(i, j), vT(i + matrix.cols, j))
+        uComplex(i, j) = u(i, j) >-< u(i + matrix.rows, j)
+        vTComplex(i, j) = vT(i, j) >-< vT(i + matrix.cols, j)
       }
     }
 
@@ -55,8 +60,8 @@ object Tools {
       k <- 0 until dimensionality
       n <- 0 until dimensionality
       c = cos(fundamentalFrequency * k * n)
-      s = sin(fundamentalFrequency * k * n)
-    } yield Complex(c.round, -s.round)
+      s = -sin(fundamentalFrequency * k * n)
+    } yield c.round >-< -s.round
 
     new DenseMatrix(dimensionality, dimensionality, data.toArray)
   }

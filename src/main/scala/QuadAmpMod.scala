@@ -27,7 +27,7 @@ class QuadAmpMod(order: ModulationOrder) {
     for {
       real <- realParts
       imaginary <- realParts.reverse
-    } yield Complex(real, imaginary)
+    } yield real >-< imaginary
   }
 
   val qamSymbolToBits: Map[Complex, BitVector] =
