@@ -5,6 +5,7 @@ import breeze.linalg.{DenseMatrix, DenseVector, max}
 import scala.annotation.targetName
 import breeze.math.Complex
 
+type ComplexVector = DenseVector[Complex]
 type ComplexMatrix = DenseMatrix[Complex]
 
 case class ComplexSVD(u: ComplexMatrix, singularValues: DenseVector[Double], vT: ComplexMatrix)

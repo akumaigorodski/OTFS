@@ -13,7 +13,7 @@ enum ModulationOrder(val value: Int) {
   val bits: Int = log2(value).toInt
 }
 
-class QuadAmpMod(order: ModulationOrder) {
+case class QAM(order: ModulationOrder) {
   private def grayCode(n: Int): Int = n ^ (n >> 1)
 
   private val constellation: Seq[Complex] = {
@@ -38,12 +38,9 @@ class QuadAmpMod(order: ModulationOrder) {
   val bitsToQamSymbol: Map[BitVector, Complex] =
     qamSymbolToBits.map(_.swap)
 
-  def modulate(data: BitVector): Seq[Complex] = {
-    val paddingSize = (order.bits - data.size % order.bits) % order.bits
-    val paddedBits = data ++ BitVector.fill(paddingSize)(false)
-    paddedBits.grouped(order.bits).map(bitsToQamSymbol).toSeq
-  }
+  def modulate(data: BitVector): Array[Complex] = 
+    data.grouped(order.bits).map(bitsToQamSymbol).toArray
 
-  def demodulate(symbols: Seq[Complex] = Nil): ByteVector =
-    symbols.map(qamSymbolToBits).foldLeft(BitVector.empty)(_ ++ _).bytes
+  def demodulate(symbols: Seq[Complex] = Nil): BitVector =
+    symbols.map(qamSymbolToBits).foldLeft(BitVector.empty)(_ ++ _)
 }

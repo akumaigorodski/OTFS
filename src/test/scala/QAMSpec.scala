@@ -6,7 +6,7 @@ import scodec.bits.ByteVector
 import ModulationOrder._
 
 class QAMSpec extends AnyFunSuite {
-  val encoding16: QuadAmpMod = QuadAmpMod(QAM16)
+  val encoding16: QAM = QAM(QAM16)
 
   test("Constellation mapping") {
     val qamSymbol: Complex = Complex(3.0, 3.0)
