@@ -25,7 +25,7 @@ case class Frame(params: FrameParams, qam: QAM) {
   val bitsPerFrame: Long = params.totalSymbols * qam.order.bits
 
   def generate(message: ByteVector): Iterator[ComplexVector] = {
-    // A sequence of delay-Doppler space matrices flattened into vectors
+    // A sequence of delay-Doppler space matrices represented as vectors
     val paddingSize = (bitsPerFrame - message.size * 8 % bitsPerFrame) % bitsPerFrame
     val paddedBits = message.bits ++ BitVector.fill(n = paddingSize)(high = false)
     qam.modulate(paddedBits).grouped(params.totalSymbols).map(DenseVector.apply)
