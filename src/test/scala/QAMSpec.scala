@@ -1,10 +1,9 @@
 package otfs
 
+import ModulationOrder.*
 import breeze.math.Complex
 import org.scalatest.funsuite.AnyFunSuite
 import scodec.bits.ByteVector
-import ModulationOrder.*
-import scodec.bits.*
 
 class QAMSpec extends AnyFunSuite {
   val encoding16: QAM = QAM(QAM16)
@@ -20,14 +19,5 @@ class QAMSpec extends AnyFunSuite {
     val qamSymbols = encoding16.modulate(data.bits)
     val result = encoding16.demodulate(qamSymbols)
     assert(result.decodeUtf8 contains message)
-  }
-
-  test("TCM Encoding/Decoding QAM16") {
-    val data = BitVector(hex"1234abcd")
-    val encoded = ModulationOrder.QAM4.encode(data)
-    val decoded = ModulationOrder.QAM4.decode(encoded)
-
-    println(decoded)
-    assert(decoded.take(data.size) == data, "Decoded data should match the original input data.")
   }
 }

@@ -69,4 +69,44 @@ object Tools {
 
     new DenseMatrix(dimensionality, dimensionality, data.toArray)
   }
+
+  // The permutation operation by P on any NxM length vector -a- can be considered as
+  // writing elements of -a- into an N×M matrix A column-wise and then reading out row-wise
+  def permutationMatrix(N: Int, M: Int): ComplexMatrix = {
+    val P = DenseMatrix.zeros[Complex](N * M, N * M)
+
+    for (j <- 1 to N) {
+      for (i <- 1 to M) {
+        val E = DenseMatrix.zeros[Complex](M, N)
+        E(i - 1, j - 1) = 1 >-< 0
+
+        val startRow = (j - 1) * M
+        val startCol = (i - 1) * N
+
+        val endRow = j * M
+        val endCol = i * N
+
+        P(startRow until endRow, startCol until endCol) := E
+      }
+    }
+
+    P
+  }
+
+  def kron(A: ComplexMatrix, B: ComplexMatrix): ComplexMatrix = {
+    // The Kronecker product of two matrices A and B is a block matrix where
+    // each element A[x, y] of matrix A is multiplied by the entire matrix B
+    val result = DenseMatrix.zeros[Complex](A.rows * B.rows, A.cols * B.cols)
+
+    for (i <- 0 until A.rows) {
+      for (j <- 0 until A.cols) {
+        val subMatrix = B * A(i, j)
+        val x = i * B.rows until (i + 1) * B.rows
+        val y = j * B.cols until (j + 1) * B.cols
+        result(x, y) := subMatrix
+      }
+    }
+
+    result
+  }
 }
