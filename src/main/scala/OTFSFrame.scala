@@ -41,7 +41,8 @@ case class OTFSFrame(params: FrameParams, qam: QAM) {
   }
 
   def modulate(message: ByteVector): Seq[ComplexVector] = {
-    val modulator = params.permute * Tools.kron(params.id, params.dftNorm.t)
+    // Inverse Discrete Zak Transform assuming practical rectangular pulse shaping waveform
+    val modulator = params.permute * Tools.kron(params.id, params.dftNorm.hermitian)
     generate(message).map(modulator.*)
   }
 }
